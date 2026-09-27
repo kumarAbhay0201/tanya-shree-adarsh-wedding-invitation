@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import Lenis from 'lenis';
 import {
   Volume2, VolumeX
 } from 'lucide-react';
@@ -47,6 +48,26 @@ function App() {
     return () => {
       window.clearInterval(interval);
       if (introDelayRef.current) window.clearTimeout(introDelayRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const lenis = new Lenis({
+      duration: 1.05,
+      smoothWheel: true,
+      syncTouch: false,
+      touchMultiplier: 1
+    });
+    let frameId;
+    const animate = (time) => {
+      lenis.raf(time);
+      frameId = window.requestAnimationFrame(animate);
+    };
+    frameId = window.requestAnimationFrame(animate);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      lenis.destroy();
     };
   }, []);
 
