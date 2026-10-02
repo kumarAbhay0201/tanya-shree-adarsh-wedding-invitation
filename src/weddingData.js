@@ -16,13 +16,13 @@ export const openingMessages = [
 export const familyGroups = [
   { relation: 'Dada & Dadi', members: ['Shri. Jai Prakash Mall', 'Smt. Sumitra Singh'] },
   { relation: 'Papa & Mummy', members: ['Shri. Dhirendra Kumar Mall', 'Dr. Sunita Singh'] },
-  { relation: 'Chacha & Chachi', members: ['Shri. Virendra Kumar Mall', 'Smt. Neetu Singh'] },
-  { relation: 'Chachu & Chachi', members: ['Shri. Bhupendra Kumar Mall', 'Smt. Kanupa Mall'] },
+  { relation: 'Chacha & Chachi', members: ['Shri. Virendra Kumar Mall (Munna Mall)', 'Smt. Neetu Singh'] },
+  { relation: 'Chachu & Chachi', members: ['Shri. Bhupendra Kumar Mall (Rajan Mall)', 'Smt. Kanupa Mall'] },
   { relation: 'Bade Fufa & Badi Bua', members: ['Shri. Gyanendra Singh', 'Smt. Arti Singh'] },
   { relation: 'Chote Fufa & Choti Bua', members: ['Shri. Rahul Singh', 'Smt. Bharti Singh'] }
 ];
 
 export const siblings = [
-  'Shreya Mall', 'Aryan Singh', 'Pranjal Singh', 'Tanmay Singh', 'Nishant Mall',
+  'Shreya Mall', 'Aryan Singh (Titu)', 'Pranjal Singh', 'Tanmay Singh (Parth)', 'Nishant Mall (Shaurya Mall)',
   'Vanya Mall', 'Aaradhya Mall', 'Viraj Mall', 'Aarav Singh', 'Devansh Mall'
 ];
