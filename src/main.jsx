@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
 import {
   Volume2, VolumeX
@@ -177,4 +178,9 @@ function CelebrationBurst() {
   return <div className="celebration-burst" aria-hidden="true"><div className="love-rain">{hearts.map((heart) => <span key={heart} style={{ '--left': `${(heart * 73 + 11) % 103}%`, '--delay': `${(heart * 137) % 4200}ms`, '--fall': `${6.5 + ((heart * 29) % 35) / 10}s`, '--drift': `${-12 + ((heart * 47) % 25)}vw`, '--size': `${.8 + ((heart * 31) % 15) / 10}rem`, '--rotation': `${-240 + ((heart * 61) % 480)}deg` }}>♥</span>)}</div><div className="firework left">{sparks.map((spark) => <i key={`left-${spark}`} style={{ '--delay': `${spark * 10}ms`, '--angle': `${spark * 5}deg`, '--distance': `${10 + (spark % 8) * 2.2}rem` }} />)}</div><div className="firework right">{sparks.map((spark) => <i key={`right-${spark}`} style={{ '--delay': `${spark * 10}ms`, '--angle': `${spark * 5}deg`, '--distance': `${10 + (spark % 8) * 2.2}rem` }} />)}</div></div>;
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+createRoot(document.getElementById('root')).render(
+  <>
+    <App />
+    <Analytics />
+  </>
+);
