@@ -53,6 +53,21 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!introComplete) return undefined;
+    let active = true;
+    fetch('/api/wishes')
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to load wishes.');
+        return response.json();
+      })
+      .then((savedWishes) => {
+        if (active) setWishes(savedWishes);
+      })
+      .catch((error) => console.error(error));
+    return () => { active = false; };
+  }, [introComplete]);
+
+  useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     const lenis = new Lenis({
       duration: 1.05,
@@ -153,11 +168,23 @@ function App() {
     }, 1400);
   };
 
-  const submitWish = (event) => {
+  const submitWish = async (event) => {
     event.preventDefault();
-    if (!newWish.name.trim() || !newWish.message.trim()) return;
-    setWishes([{ ...newWish, time: 'Just now' }, ...wishes]);
-    setNewWish({ name: '', message: '' });
+    const wish = { name: newWish.name.trim(), message: newWish.message.trim() };
+    if (!wish.name || !wish.message) return;
+    try {
+      const response = await fetch('/api/wishes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(wish)
+      });
+      if (!response.ok) throw new Error('Unable to save wish.');
+      const savedWish = await response.json();
+      setWishes((currentWishes) => [savedWish, ...currentWishes]);
+      setNewWish({ name: '', message: '' });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
