@@ -7,8 +7,6 @@ export const events = [
   { title: 'Wedding Ceremony', image: '/wedding.png', date: '30th November 2026', day: 'Monday', time: '7:00 PM Onwards', address: 'Railway Club, Gorakhpur', dress: 'Royal Traditional', icon: Clock }
 ];
 
-export const initialWishes = [];
-
 export const openingMessages = [
   'वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।\nनिर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥'
 ];

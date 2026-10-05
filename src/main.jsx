@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import EntryExperience from './EntryExperience';
 import InvitationContent from './InvitationContent';
-import { events, initialWishes, openingMessages } from './weddingData';
+import { events, openingMessages } from './weddingData';
 import './styles.css';
 
 function countdown() {
@@ -37,8 +37,6 @@ function App() {
   const [celebrationBurst, setCelebrationBurst] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(countdown);
-  const [wishes, setWishes] = useState(initialWishes);
-  const [newWish, setNewWish] = useState({ name: '', message: '' });
   const audioRef = useRef(null);
   const entryVideoRef = useRef(null);
   const introDelayRef = useRef(null);
@@ -51,21 +49,6 @@ function App() {
       if (introDelayRef.current) window.clearTimeout(introDelayRef.current);
     };
   }, []);
-
-  useEffect(() => {
-    if (!introComplete) return undefined;
-    let active = true;
-    fetch('/api/wishes')
-      .then((response) => {
-        if (!response.ok) throw new Error('Unable to load wishes.');
-        return response.json();
-      })
-      .then((savedWishes) => {
-        if (active) setWishes(savedWishes);
-      })
-      .catch((error) => console.error(error));
-    return () => { active = false; };
-  }, [introComplete]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
@@ -168,25 +151,6 @@ function App() {
     }, 1400);
   };
 
-  const submitWish = async (event) => {
-    event.preventDefault();
-    const wish = { name: newWish.name.trim(), message: newWish.message.trim() };
-    if (!wish.name || !wish.message) return;
-    try {
-      const response = await fetch('/api/wishes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(wish)
-      });
-      if (!response.ok) throw new Error('Unable to save wish.');
-      const savedWish = await response.json();
-      setWishes((currentWishes) => [savedWish, ...currentWishes]);
-      setNewWish({ name: '', message: '' });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="app-shell">
       <audio ref={audioRef} loop src="/shubh_din.mp3" />
@@ -194,7 +158,7 @@ function App() {
       <EntryExperience isOpen={isOpen} openInvitation={openInvitation} introHold={introHold} openingSequence={openingSequence} typedOpeningMessage={typedOpeningMessage} entryVideo={entryVideo} closingEntryVideo={closingEntryVideo} entryVideoRef={entryVideoRef} finishEntryVideo={finishEntryVideo} />
       {celebrationBurst && <CelebrationBurst />}
 
-      {isOpen && introComplete && <InvitationContent timeLeft={timeLeft} wishes={wishes} newWish={newWish} setNewWish={setNewWish} submitWish={submitWish} />}
+      {isOpen && introComplete && <InvitationContent timeLeft={timeLeft} />}
     </div>
   );
 }
